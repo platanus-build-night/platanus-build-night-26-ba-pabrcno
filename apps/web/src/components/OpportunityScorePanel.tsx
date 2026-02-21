@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { trpc } from "../trpc";
+import { trpc } from "@/trpc";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { trpc } from "../trpc";
-import { SearchBar } from "../components/SearchBar";
-import { SourcingPanel } from "../components/SourcingPanel";
-import { TrendsPanel } from "../components/TrendsPanel";
-import { ImportGuidePanel } from "../components/ImportGuidePanel";
-import { MarketReportPanel } from "../components/MarketReportPanel";
-import { OpportunityScorePanel } from "../components/OpportunityScorePanel";
+import { trpc } from "@/trpc";
+import { SearchBar } from "@/components/SearchBar";
+import { SourcingPanel } from "@/components/SourcingPanel";
+import { TrendsPanel } from "@/components/TrendsPanel";
+import { ImportGuidePanel } from "@/components/ImportGuidePanel";
+import { MarketReportPanel } from "@/components/MarketReportPanel";
+import { OpportunityScorePanel } from "@/components/OpportunityScorePanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";

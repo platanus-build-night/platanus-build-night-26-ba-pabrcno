@@ -1,17 +1,18 @@
+"use client";
+
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
-import { trpc } from "./trpc";
-import { Research } from "./pages/Research";
+import { trpc } from "@/trpc";
 import { env } from "@repo/env/client";
 
-function App() {
+export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: `${env.VITE_API_URL}/trpc`,
+          url: `${env.NEXT_PUBLIC_API_URL}/trpc`,
         }),
       ],
     })
@@ -19,11 +20,7 @@ function App() {
 
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <Research />
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </trpc.Provider>
   );
 }
-
-export default App;
