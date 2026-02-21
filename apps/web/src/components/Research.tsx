@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { trpc } from "@/trpc";
+import RippleGrid from "@/components/RippleGrid";
 import { SearchBar } from "@/components/SearchBar";
 import { SourcingPanel } from "@/components/SourcingPanel";
 import { TrendsPanel } from "@/components/TrendsPanel";
@@ -52,8 +53,20 @@ export function Research() {
   const meta = session?.product_metadata;
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto py-8 px-4 max-w-5xl">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <div className="absolute inset-0">
+        <RippleGrid
+          enableRainbow={false}
+          gridColor="#94a3b8"
+          rippleIntensity={0.02}
+          gridSize={10}
+          gridThickness={500}
+          mouseInteraction={true}
+          mouseInteractionRadius={1.2}
+          opacity={0.4}
+        />
+      </div>
+      <div className="container mx-auto py-8 px-4 max-w-5xl relative z-10">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden ring-2 ring-white/30 shrink-0">
@@ -74,6 +87,14 @@ export function Research() {
                 Research product sourcing, trends, regulations, and market
                 opportunity in one search.
               </p>
+              <a
+                href="https://ulu.lat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-600 hover:text-green-700 hover:underline mt-2 inline-block"
+              >
+                Marketing, Sales, Logistics & more — just with a WhatsApp message
+              </a>
             </div>
           </div>
           <div className="flex items-center gap-2">
