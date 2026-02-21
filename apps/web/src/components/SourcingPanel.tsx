@@ -46,16 +46,29 @@ interface SourcingPanelProps {
   onDataLoaded?: (data: SourcingSearchResponse) => void;
 }
 
-function formatDualPrice(
-  usd: number | null | undefined,
-  local: number | null | undefined,
-  localCurrency: string,
-): string {
-  if (usd == null && local == null) return "N/A";
+function DualPriceDisplay({
+  usd,
+  local,
+  localCurrency,
+  className = "",
+}: {
+  usd: number | null | undefined;
+  local: number | null | undefined;
+  localCurrency: string;
+  className?: string;
+}) {
+  if (usd == null && local == null) return <span className={className}>N/A</span>;
   const usdStr = usd != null ? `$${usd.toFixed(2)}` : "—";
-  if (!localCurrency || localCurrency === "USD") return usdStr;
-  const localStr = local != null ? `${localCurrency} ${local.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—";
-  return `${usdStr} / ${localStr}`;
+  const localStr =
+    localCurrency && localCurrency !== "USD" && local != null
+      ? `${localCurrency} ${local.toLocaleString(undefined, { maximumFractionDigits: 0 })}`
+      : null;
+  return (
+    <div className={`flex flex-col gap-0.5 text-xs font-semibold ${className}`}>
+      <span>{usdStr}</span>
+      {localStr && <span className="text-muted-foreground font-medium">{localStr}</span>}
+    </div>
+  );
 }
 
 export function SourcingPanel({ normalizedQuery, countryCode, countryName, sessionId, enabled, onDataLoaded }: SourcingPanelProps) {
@@ -156,56 +169,75 @@ function PriceSummaryBar({
   localCurrency: string;
 }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
       <SummaryCell
         label="Wholesale Floor"
-        value={formatDualPrice(analysis.wholesale_floor, analysis.wholesale_floor_local, localCurrency)}
-        icon={<TrendingDown className="h-4 w-4 text-green-600" />}
-      />
+        icon={<TrendingDown className="h-3.5 w-3.5 text-green-600" />}
+      >
+        <DualPriceDisplay
+          usd={analysis.wholesale_floor}
+          local={analysis.wholesale_floor_local}
+          localCurrency={localCurrency}
+        />
+      </SummaryCell>
       <SummaryCell
         label="Retail Ceiling"
-        value={formatDualPrice(analysis.retail_ceiling, analysis.retail_ceiling_local, localCurrency)}
-        icon={<TrendingUp className="h-4 w-4 text-blue-600" />}
-      />
+        icon={<TrendingUp className="h-3.5 w-3.5 text-blue-600" />}
+      >
+        <DualPriceDisplay
+          usd={analysis.retail_ceiling}
+          local={analysis.retail_ceiling_local}
+          localCurrency={localCurrency}
+        />
+      </SummaryCell>
       <SummaryCell
         label="Local Retail Median"
-        value={formatDualPrice(analysis.local_retail_median, analysis.local_retail_median_local, localCurrency)}
-        icon={<MapPin className="h-4 w-4 text-purple-600" />}
-      />
+        icon={<MapPin className="h-3.5 w-3.5 text-purple-600" />}
+      >
+        <DualPriceDisplay
+          usd={analysis.local_retail_median}
+          local={analysis.local_retail_median_local}
+          localCurrency={localCurrency}
+        />
+      </SummaryCell>
       <SummaryCell
         label="Margin Range"
-        value={
-          analysis.gross_margin_pct_min != null && analysis.gross_margin_pct_max != null
+        icon={<DollarSign className="h-3.5 w-3.5 text-emerald-600" />}
+      >
+        <span className="text-xs font-semibold">
+          {analysis.gross_margin_pct_min != null && analysis.gross_margin_pct_max != null
             ? `${analysis.gross_margin_pct_min.toFixed(0)}% – ${analysis.gross_margin_pct_max.toFixed(0)}%`
-            : "N/A"
-        }
-        icon={<DollarSign className="h-4 w-4 text-emerald-600" />}
-      />
+            : "N/A"}
+        </span>
+      </SummaryCell>
       <SummaryCell
         label="Best Source"
-        value={analysis.best_source_platform ? PLATFORM_LABELS[analysis.best_source_platform] : "N/A"}
-        icon={<Star className="h-4 w-4 text-amber-500" />}
-      />
+        icon={<Star className="h-3.5 w-3.5 text-amber-500" />}
+      >
+        <span className="text-xs font-semibold">
+          {analysis.best_source_platform ? PLATFORM_LABELS[analysis.best_source_platform] : "N/A"}
+        </span>
+      </SummaryCell>
     </div>
   );
 }
 
 function SummaryCell({
   label,
-  value,
   icon,
+  children,
 }: {
   label: string;
-  value: string;
   icon: React.ReactNode;
+  children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-lg border p-3">
-      <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1">
+    <div className="rounded-lg border p-2.5">
+      <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground mb-1">
         {icon}
         {label}
       </div>
-      <div className="text-sm font-semibold">{value}</div>
+      <div>{children}</div>
     </div>
   );
 }
@@ -253,9 +285,11 @@ function ProductCard({ product, localCurrency }: { product: PlatformProduct; loc
         </h4>
 
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-bold">
-            {formatDualPrice(product.price_raw, product.price_local, localCurrency)}
-          </span>
+          <DualPriceDisplay
+            usd={product.price_raw}
+            local={product.price_local}
+            localCurrency={localCurrency}
+          />
           {product.source_domain && (
             <Badge variant="outline" className="text-xs">
               {product.source_domain}

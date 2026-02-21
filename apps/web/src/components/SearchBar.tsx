@@ -57,11 +57,15 @@ export function SearchBar({ onSearch, isLoading }: SearchBarProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for a product to research... e.g. 'wireless earbuds', 'yoga mats'"
-            className="pl-9 h-11"
+            className="pl-9 h-11 border-2 border-gray-400 focus-visible:border-gray-500"
             disabled={isLoading}
           />
         </div>
-        <Button type="submit" disabled={!query.trim() || isLoading} className="h-11 px-6">
+        <Button
+          type="submit"
+          disabled={!query.trim() || isLoading}
+          className="h-11 px-6 bg-green-600 hover:bg-green-700 text-white"
+        >
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
