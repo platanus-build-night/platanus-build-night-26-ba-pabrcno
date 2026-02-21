@@ -55,14 +55,26 @@ export function Research() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8 px-4 max-w-5xl">
         <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight mb-1">
-              Wholesale Research Platform
-            </h1>
-            <p className="text-muted-foreground">
-              Research product sourcing, trends, regulations, and market
-              opportunity in one search.
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden ring-2 ring-white/30 shrink-0">
+              <video
+                src="/animation.mp4"
+                autoPlay
+                muted
+                playsInline
+                loop={false}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight mb-1">
+                ulu research
+              </h1>
+              <p className="text-muted-foreground">
+                Research product sourcing, trends, regulations, and market
+                opportunity in one search.
+              </p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <span
