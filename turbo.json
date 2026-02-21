@@ -5,7 +5,24 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_MODEL",
+        "SERPAPI_API_KEY",
+        "SERPAPI_BASE_URL",
+        "SERPAPI_RESULTS_PER_PAGE",
+        "SERPAPI_TRENDS_DATE",
+        "TAVILY_API_KEY",
+        "TAVILY_SEARCH_DEPTH",
+        "TAVILY_MAX_RESULTS",
+        "TAVILY_INCLUDE_ANSWER",
+        "DATABASE_URL",
+        "ALIEXPRESS_APP_KEY",
+        "ALIEXPRESS_APP_SECRET",
+        "CORS_ORIGIN",
+        "GEOLOCATION_API_URL"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
