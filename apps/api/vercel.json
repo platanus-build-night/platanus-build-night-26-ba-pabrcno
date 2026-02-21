@@ -1,5 +1,0 @@
-{
-  "buildCommand": "cd ../.. && pnpm turbo build --filter=@repo/api",
-  "installCommand": "cd ../.. && pnpm install",
-  "framework": "fastify"
-}
